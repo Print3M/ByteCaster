@@ -1,7 +1,7 @@
 package output
 
 import (
-	"bin2code/cli"
+	"bytecaster/cli"
 	"fmt"
 	"log"
 	"strings"
@@ -83,7 +83,7 @@ func (o *output) c() {
 			0x48, 0x65, 0x6C, 0x6C, 0x6F,
 		};
 	*/
-	fmt.Print("unsigned char buffer[] = {\n\t")
+	fmt.Print("unsigned char buffer[] = {\n")
 
 	o.bytesArray(4, 8)
 

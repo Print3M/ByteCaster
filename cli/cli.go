@@ -20,9 +20,12 @@ var (
 
 var (
 	OptEncodingBase64  = "base64"
+	OptEncodingIPv4    = "ipv4"
+	OptEncodingMAC     = "mac"
 	SupportedEncodings = []string{
-		OptEncodingBase64,
+		OptEncodingBase64, OptEncodingIPv4, OptEncodingMAC,
 	}
+	// TODO: ASM code encoding
 )
 
 var (
@@ -75,7 +78,7 @@ func ParseCli() *CliFlags {
 	flag.BoolVar(&flags.ShowVersion, "version", false, "")
 
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: Bin2Code -i <path> -f <value> \n")
+		fmt.Fprintf(os.Stderr, "Usage: ByteCaster -i <path> -f <value> \n")
 		fmt.Println()
 		fmt.Println("Usage:")
 		fmt.Println()
@@ -92,7 +95,7 @@ func ParseCli() *CliFlags {
 		fmt.Println()
 		fmt.Println("Example:")
 		fmt.Println()
-		fmt.Println("  Bin2Code -i shellcode.bin -f go -x xor -k StrongKey123 -e base64")
+		fmt.Println("  ByteCaster -i shellcode.bin -f go -x xor -k StrongKey123 -e base64")
 		fmt.Println()
 		fmt.Println("Created by Print3M (print3m.github.io)")
 		fmt.Println()
@@ -101,7 +104,7 @@ func ParseCli() *CliFlags {
 	flag.Parse()
 
 	if flags.ShowVersion {
-		fmt.Printf("Bin2Code %s\n", VERSION)
+		fmt.Printf("ByteCaster %s\n", VERSION)
 		os.Exit(0)
 	}
 

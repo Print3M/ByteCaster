@@ -1,10 +1,10 @@
 package main
 
 import (
-	"bin2code/cli"
-	"bin2code/encoding"
-	"bin2code/encryption"
-	"bin2code/output"
+	"bytecaster/cli"
+	"bytecaster/encoding"
+	"bytecaster/encryption"
+	"bytecaster/output"
 	"fmt"
 	"log"
 	"os"

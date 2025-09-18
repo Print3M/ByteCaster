@@ -1,7 +1,7 @@
 package encryption
 
 import (
-	"bin2code/cli"
+	"bytecaster/cli"
 	"log"
 )
 
