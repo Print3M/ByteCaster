@@ -1,12 +1,12 @@
 # ByteCaster
 
-Encrypt, obfuscate and convert your shellcode into byte array with a single command. Many output formats supported!
+Encrypt, obfuscate and convert your shellcode into byte array with a single command (+10 languages supported)!
 
 ![ByteCaster flowchart](_img/img-1.png)
 
 ## Installation
 
-[Download the compiled binary](TODO) or compile Go source code.
+[Download the compiled binary](https://github.com/Print3M/ByteCaster/releases/tag/1.0.0) or compile Go source code.
 
 ## Usage
 
@@ -56,17 +56,17 @@ All supported encoding algorithms are described in details below.
 
 ## Supported encryption algorithms
 
-**`xor`** [0% overhead]
+#### **`xor`** [0% overhead]
 
 Typical simple XOR encryption (`a^b`). Each byte is XORed with the byte from the key.
 
 ## Supported encoding algorithms
 
-**`base64`** [33%-37% overhead]
+#### **`base64`** [33%-37% overhead]
 
 Standard Base64 encoding. We are using [the standard Go library functions here](https://pkg.go.dev/encoding/base64).
 
-**`ipv4`**
+#### **`ipv4`** [100%-300% overhead]
 
 This is known as the _IPv4Fuscation_ technique. Each output byte is converted to one octet in the IPv4 address as a decimal number.
 
@@ -85,7 +85,7 @@ The output (array of bytes) looks exactly like this in memory:
 > - Each IP address ends with a null byte!
 > - If the number of bytes is not divisible by 4, the missing bytes added to the last IP address are 255.
 
-**`mac`**
+#### **`mac`** [200% overhead]
 
 This is known as the _MACFuscation_ technique. Each output byte is converted to one octet in the MAC address as a hexadecimal number (lowercase).
 
@@ -111,6 +111,5 @@ The output (array of bytes) looks exactly like this in memory:
 
 ## TODO
 
-- Calculate overhead
 - Add AES encryption
-- 
+- Add base32 encoding

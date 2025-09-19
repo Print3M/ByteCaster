@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const VERSION = "0.0.9"
+const VERSION = "1.0.0"
 
 var (
 	OptEncryptionXor        = "xor"
