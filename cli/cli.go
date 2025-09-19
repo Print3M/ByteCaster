@@ -85,11 +85,11 @@ func ParseCli() *CliFlags {
 		fmt.Println("Usage:")
 		fmt.Println()
 		fmt.Printf("  %-25s %s\n", "-i, --input <path>", "Binary input file (required)")
-		fmt.Printf("  %-25s %s\n", "-f, --format <value>", "Output format (required):")
+		fmt.Printf("  %-25s %s\n", "-f, --format <value>", "Output format (default: raw):")
 		fmt.Printf("  %-25s > %v\n", "", strings.Join(SupportedOutputFormats, ", "))
-		fmt.Printf("  %-25s %s\n", "-e, --encoding <value>", "Output encoding:")
+		fmt.Printf("  %-25s %s\n", "-e, --encoding <value>", "Output encoding (default: disabled):")
 		fmt.Printf("  %-25s > %v\n", "", strings.Join(SupportedEncodings, ", "))
-		fmt.Printf("  %-25s %s\n", "-x, --enc-alg <value>", "Encryption algorithm:")
+		fmt.Printf("  %-25s %s\n", "-x, --enc-alg <value>", "Encryption algorithm (default: disabled):")
 		fmt.Printf("  %-25s > %v\n", "", strings.Join(SupportedEncryptionAlgs, ", "))
 		fmt.Printf("  %-25s %s\n", "-k, --enc-key <string>", "Encryption key")
 		fmt.Printf("  %-25s %s\n", "-v, --version", "Show version")
@@ -111,23 +111,29 @@ func ParseCli() *CliFlags {
 	}
 
 	// Required flags
-	if flags.Input == "" || flags.OutputFormat == "" {
+	if flags.Input == "" {
 		flag.Usage()
 		os.Exit(1)
 	}
 
 	flags.OutputFormat = strings.ToLower(flags.OutputFormat)
 
-	if len(flags.OutputFormat) > 0 && !slices.Contains(SupportedOutputFormats, flags.OutputFormat) {
-		fmt.Fprintf(os.Stderr, "Output format '%s' not supported!\n", flags.OutputFormat)
-		os.Exit(1)
+	if len(flags.OutputFormat) == 0 {
+		flags.OutputFormat = OptOutputRaw
+	} else {
+		if !slices.Contains(SupportedOutputFormats, flags.OutputFormat) {
+			fmt.Fprintf(os.Stderr, "Output format not supported: %s\n", flags.OutputFormat)
+			flag.Usage()
+			os.Exit(1)
+		}
 	}
 
 	flags.Encoding = strings.ToLower(flags.Encoding)
 	flags.EncodingEnabled = len(flags.Encoding) > 0
 
 	if flags.EncodingEnabled && !slices.Contains(SupportedEncodings, flags.Encoding) {
-		fmt.Fprintf(os.Stderr, "Encoding '%s' not supported!\n", flags.Encoding)
+		fmt.Fprintf(os.Stderr, "Encoding not supported: %s\n", flags.Encoding)
+		flag.Usage()
 		os.Exit(1)
 	}
 
@@ -136,12 +142,14 @@ func ParseCli() *CliFlags {
 
 	if flags.EncryptionEnabled {
 		if !slices.Contains(SupportedEncryptionAlgs, flags.EncryptionAlg) {
-			fmt.Fprintf(os.Stderr, "Encryption algorithm '%s' not supported!\n", flags.EncryptionAlg)
+			fmt.Fprintf(os.Stderr, "Encryption algorithm not supported: %s\n", flags.EncryptionAlg)
+			flag.Usage()
 			os.Exit(1)
 		}
 
 		if len(flags.EncryptionKey) == 0 {
-			fmt.Fprintf(os.Stderr, "Encryption key not set!\n")
+			fmt.Fprintf(os.Stderr, "Encryption key missing: -k / --enc-key\n")
+			flag.Usage()
 			os.Exit(1)
 		}
 	}

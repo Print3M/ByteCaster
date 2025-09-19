@@ -2,24 +2,9 @@
 
 Swiss-knife file to array of bytes converter in multiple languages with built-in encryption & encoding.
 
-- No external dependencies
-- Standalone binary
+Encrypt, obfuscate and convert your shellcode into byte array with a single command. Many output formats supported!
 
-// TODO: Graphic with examples of each stage
-
-```text
-  Input
-    |
-Encryption + Key
-    |
-    |
- Encoding
-    |
-    |
-  Output
-Formatting
-
-```
+![ByteCaster flowchart](_img/img-1.png)
 
 ## Installation
 
@@ -30,31 +15,34 @@ Formatting
 Example:
 
 ```bash
-# Backdoor version.dll (proxy to absolute path)
-./ByteCaster -i data.bin
+# Convert .bin file into C bytes array with XOR encryption and IPv4Fuscation
+./ByteCaster -i shellcode.bin -f c -x xor -k 'Test123' -e ipv4
+
+# Convert .bin file into base64 string with XOR encryption
+./ByteCaster -i shellcode.bin -x xor -k 'Test123' -e base64
 ```
 
 **`-i / --input <path>`** [required]
 
 Binary input file.
 
-**`-f / --format <value>`** [required]
+**`-f / --format <value>`** [optional, default: `raw`]
 
 Output format of the processed data. This generates the final data as an array of bytes in the selected programming language. Output is always sent to STDOUT.
 
-To avoid applying any formatting output, use the `raw` value.
+To avoid applying any formatting output, use the `raw` value (default).
 
 Available values: `raw`, `hex`, `c`, `go`, `powershell`, `php`, `js`, `rust`, `csharp`
 
 // TODO: Nim, Zig
 
-**`-x / --enc-alg <value>` + `-k / --enc-key <string>`**
+**`-x / --enc-alg <value>` + `-k / --enc-key <string>`** [optional]
 
-Data encryption. Both parameters, the encryption algorithm and the key (string), must be provided.
+Data encryption. Both parameters, the encryption algorithm and the key string, must be provided.
 
 Availabe values: `xor`
 
-**`-e / --encoding <value>`**
+**`-e / --encoding <value>`** [optional]
 
 Data encoding. Often used as obfuscation to confuse analysis or changes in the entropy level of data.
 
