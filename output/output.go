@@ -17,14 +17,14 @@ func Output(data []byte, format string) {
 	}
 
 	switch format {
-	case cli.OptOutputGo:
-		output.golang()
-	case cli.OptOutputC:
-		output.c()
 	case cli.OptOutputRaw:
 		output.raw()
+	case cli.OptOutputGo:
+		output.golang()
 	case cli.OptOutputHex:
 		output.hex()
+	case cli.OptOutputC:
+		output.c()
 	case cli.OptOutputJs:
 		output.js()
 	case cli.OptOutputPhp:
@@ -51,7 +51,21 @@ func Output(data []byte, format string) {
 }
 
 func (i *output) comment(char string) {
-	//
+	// TODO: We need all flags here
+	/*
+		C → // comment
+		Go → // comment
+		PowerShell → # comment
+		PHP → // comment or # comment
+		JavaScript → // comment
+		Rust → // comment
+		C# → // comment
+		Nim → # comment
+		Zig → // comment
+		Ruby → # comment
+		Python → # comment
+		Java → // comment
+	*/
 }
 
 func (o *output) bytesArray(indentSpaces int, cols int) {
