@@ -1,7 +1,5 @@
 # ByteCaster
 
-Swiss-knife file to array of bytes converter in multiple languages with built-in encryption & encoding.
-
 Encrypt, obfuscate and convert your shellcode into byte array with a single command. Many output formats supported!
 
 ![ByteCaster flowchart](_img/img-1.png)
@@ -22,6 +20,12 @@ Example:
 ./ByteCaster -i shellcode.bin -x xor -k 'Test123' -e base64
 ```
 
+> **NOTE**: The sequence of operations is always the same:
+>
+> 1. Encryption
+> 2. Encoding
+> 3. Output formatting
+
 **`-i / --input <path>`** [required]
 
 Binary input file.
@@ -32,9 +36,7 @@ Output format of the processed data. This generates the final data as an array o
 
 To avoid applying any formatting output, use the `raw` value (default).
 
-Available values: `raw`, `hex`, `c`, `go`, `powershell`, `php`, `js`, `rust`, `csharp`
-
-// TODO: Nim, Zig
+Available values: `raw`, `hex`, `c`, `go`, `powershell`, `php`, `js`, `rust`, `csharp`, `nim`, `zig`, `ruby`, `python`, `java`
 
 **`-x / --enc-alg <value>` + `-k / --enc-key <string>`** [optional]
 
@@ -42,25 +44,23 @@ Data encryption. Both parameters, the encryption algorithm and the key string, m
 
 Availabe values: `xor`
 
+All supported encryption algorithms are described in details below.
+
 **`-e / --encoding <value>`** [optional]
 
 Data encoding. Often used as obfuscation to confuse analysis or changes in the entropy level of data.
 
 Available values: `base64`, `ipv4`, `mac`
 
-## Processing order
+All supported encoding algorithms are described in details below.
 
-1. Encryption
-2. Encoding
-3. Output format
-
-## Encryption algorithms
+## Supported encryption algorithms
 
 **`xor`** [0% overhead]
 
 Typical simple XOR encryption (`a^b`). Each byte is XORed with the byte from the key.
 
-## Encoding algorithms
+## Supported encoding algorithms
 
 **`base64`** [33%-37% overhead]
 
@@ -108,3 +108,9 @@ The output (array of bytes) looks exactly like this in memory:
 ## Credits
 
 - [HellShell](https://github.com/NUL0x4C/HellShell) - inspired me to implement _IPv4Fuscation_ and _MACFuscation_.
+
+## TODO
+
+- Calculate overhead
+- Add AES encryption
+- 

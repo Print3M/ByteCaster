@@ -39,12 +39,18 @@ var (
 	OptOutputRust          = "rust"
 	OptOutputHex           = "hex"
 	OptOutputRaw           = "raw"
+	OptOutputNim           = "nim"
+	OptOutputZig           = "zig"
+	OptOutputJava          = "java"
+	OptOutputPython        = "python"
+	OptOutputRuby          = "ruby"
 	SupportedOutputFormats = []string{
 		OptOutputC, OptOutputGo, OptOutputPowershell,
 		OptOutputPhp, OptOutputJs, OptOutputRust,
 		OptOutputHex, OptOutputRaw, OptOutputCSharp,
+		OptOutputNim, OptOutputZig, OptOutputJava,
+		OptOutputPython, OptOutputRuby,
 	}
-	// TODO: Nim, Zig
 )
 
 type CliFlags struct {

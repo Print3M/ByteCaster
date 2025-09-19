@@ -11,19 +11,7 @@ type output struct {
 	data []byte
 }
 
-var buffer = []byte{
-	0x30, 0x63, 0x3a, 0x30, 0x64,
-	0x3a, 0x31, 0x31, 0x3a, 0x30,
-	0x37, 0x00, 0x34, 0x33, 0x3a,
-	0x3a, 0x31, 0x31, 0x3a, 0x30,
-	0x3a, 0x66, 0x66, 0x3a, 0x66,
-	// ...
-}
-
-var bufferSize = 90
-
 func Output(data []byte, format string) {
-	fmt.Println(buffer, bufferSize)
 	output := output{
 		data: data,
 	}
@@ -47,9 +35,23 @@ func Output(data []byte, format string) {
 		output.rust()
 	case cli.OptOutputPowershell:
 		output.powershell()
+	case cli.OptOutputNim:
+		output.nim()
+	case cli.OptOutputZig:
+		output.zig()
+	case cli.OptOutputPython:
+		output.python()
+	case cli.OptOutputRuby:
+		output.ruby()
+	case cli.OptOutputJava:
+		output.java()
 	default:
 		log.Fatal("Unknown output format")
 	}
+}
+
+func (i *output) comment(char string) {
+	//
 }
 
 func (o *output) bytesArray(indentSpaces int, cols int) {
@@ -192,4 +194,73 @@ func (o *output) powershell() {
 	fmt.Println(",\n)")
 	fmt.Println()
 	fmt.Printf("let bufferSize = %d;\n", len(o.data))
+}
+
+func (o *output) nim() {
+	/*
+		let buffer: array[5, byte] = [
+			0x48, 0x65, 0x6C, 0x6C, 0x6F,
+		]
+	*/
+	fmt.Printf("let buffer: array[%d, byte] = [\n", len(o.data))
+
+	o.bytesArray(4, 8)
+
+	fmt.Println(",\n]")
+	fmt.Println()
+	fmt.Printf("let bufferSize = %d\n", len(o.data))
+}
+
+func (o *output) zig() {
+	/*
+		const buffer: [5]u8 = [_]u8{
+			0x48, 0x65, 0x6C, 0x6C, 0x6F,
+		};
+	*/
+	fmt.Printf("const buffer: [%d]u8 = [%d]u8{\n", len(o.data), len(o.data))
+
+	o.bytesArray(4, 8)
+
+	fmt.Println(",\n};")
+	fmt.Println()
+	fmt.Printf("const bufferSize = %d;\n", len(o.data))
+}
+
+func (o *output) python() {
+	/*
+		buffer = [
+			0x30, 0x63, 0x3A, 0x30, 0x64,
+		]
+	*/
+	fmt.Printf("buffer = [\n")
+
+	o.bytesArray(4, 8)
+
+	fmt.Println(",\n]")
+	fmt.Println()
+	fmt.Printf("buffer_size = %d\n", len(o.data))
+}
+
+func (o *output) ruby() {
+	/*
+		buffer = [
+			0x30, 0x63, 0x3A, 0x30, 0x64
+		]
+	*/
+	o.python()
+}
+
+func (o *output) java() {
+	/*
+		byte[] buffer = new byte[] {
+			0x30, 0x63, 0x3A, 0x30, 0x64
+		};
+	*/
+	fmt.Printf("byte[] buffer = new byte[] {\n")
+
+	o.bytesArray(4, 8)
+
+	fmt.Println(",\n};")
+	fmt.Println()
+	fmt.Printf("int bufferSize = %d;\n", len(o.data))
 }
