@@ -10,6 +10,8 @@ import (
 	"os"
 )
 
+// TODO: Add comment with key and all used algorithms, and credits
+
 func main() {
 	flags := cli.ParseCli()
 

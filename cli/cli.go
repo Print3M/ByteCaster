@@ -26,6 +26,7 @@ var (
 		OptEncodingBase64, OptEncodingIPv4, OptEncodingMAC,
 	}
 	// TODO: ASM code encoding
+	// TODO: https://www.youtube.com/watch?v=8YIfjM_zCjs
 )
 
 var (
@@ -43,6 +44,7 @@ var (
 		OptOutputPhp, OptOutputJs, OptOutputRust,
 		OptOutputHex, OptOutputRaw, OptOutputCSharp,
 	}
+	// TODO: Nim, Zig
 )
 
 type CliFlags struct {
