@@ -2,6 +2,7 @@ package encoding
 
 import (
 	"bytecaster/cli"
+	"encoding/base32"
 	"encoding/base64"
 	"log"
 	"net"
@@ -18,6 +19,8 @@ func EncodeData(data []byte, encoding string) []byte {
 	}
 
 	switch encoding {
+	case cli.OptEncodingBase32:
+		enc.base32()
 	case cli.OptEncodingBase64:
 		enc.base64()
 	case cli.OptEncodingIPv4:
@@ -29,6 +32,14 @@ func EncodeData(data []byte, encoding string) []byte {
 	}
 
 	return enc.output
+}
+
+func (e *encoder) base32() {
+	/*
+		IyBCeXRlQ2FzdGVyCgpTd2lzcy1rbmlmZSBmaWxlI...
+	*/
+	encoded := base32.StdEncoding.EncodeToString(e.input)
+	e.output = []byte(encoded)
 }
 
 func (e *encoder) base64() {

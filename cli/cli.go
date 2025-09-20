@@ -11,19 +11,24 @@ import (
 const VERSION = "1.0.0"
 
 var (
-	OptEncryptionXor        = "xor"
+	OptEncryptionXOR        = "xor"
+	OptEncryptionAES256     = "aes256"
+	OptEncryptionRC4        = "rc4"
 	SupportedEncryptionAlgs = []string{
-		OptEncryptionXor,
+		OptEncryptionXOR, OptEncryptionAES256,
+		OptEncryptionRC4,
 	}
 	// TODO: vigenere
 )
 
 var (
+	OptEncodingBase32  = "base32"
 	OptEncodingBase64  = "base64"
 	OptEncodingIPv4    = "ipv4"
 	OptEncodingMAC     = "mac"
 	SupportedEncodings = []string{
 		OptEncodingBase64, OptEncodingIPv4, OptEncodingMAC,
+		OptEncodingBase32,
 	}
 	// TODO: ASM code encoding
 	// TODO: https://www.youtube.com/watch?v=8YIfjM_zCjs

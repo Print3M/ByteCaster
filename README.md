@@ -1,6 +1,8 @@
 # ByteCaster
 
-Encrypt, obfuscate and convert your shellcode into byte array with a single command (+10 languages supported)!
+Swiss Army Knife for payload encryption, obfuscation, and conversion to byte arrays – all in a single command!
+
+It supports 3 encryption algorithms, 4 encoding / obfuscation algorithms and 14 output formats.
 
 ![ByteCaster flowchart](_img/img-1.png)
 
@@ -42,7 +44,7 @@ Available values: `raw`, `hex`, `c`, `go`, `powershell`, `php`, `js`, `rust`, `c
 
 Data encryption. Both parameters, the encryption algorithm and the key string, must be provided.
 
-Availabe values: `xor`
+Availabe values: `xor`, `aes256`, `rc4`
 
 All supported encryption algorithms are described in details below.
 
@@ -50,7 +52,7 @@ All supported encryption algorithms are described in details below.
 
 Data encoding. Often used as obfuscation to confuse analysis or changes in the entropy level of data.
 
-Available values: `base64`, `ipv4`, `mac`
+Available values: `base32`, `base64`, `ipv4`, `mac`
 
 All supported encoding algorithms are described in details below.
 
@@ -60,11 +62,28 @@ All supported encoding algorithms are described in details below.
 
 Typical simple XOR encryption (`a^b`). Each byte is XORed with the byte from the key.
 
+#### **`aes256`** [28 bytes overhead]
+
+AES-256-GCM with the 32-bytes long key derived from SHA-256 hash function.
+
+Ciphertext format: `nonce || ciphertext`. Nonce is stored in the first 12 bytes, followed by the encrypted data and authentication tag (the tag is appended automatically by GCM inside ciphertext).
+
+Standard Go implementation of AES encryption:`crypto/aes`
+Standard Go implementation of SHA-256 key derivation: `crypto/sha256`
+
+#### **`rc4`** [0% overhead]
+
+Standard Go implementation of RC4 encryption: `crypto/rc4`
+
 ## Supported encoding algorithms
+
+#### **`base32`** [60–65% overhead]
+
+Standard Go implementation of Base32 encoding: `encoding/base32`
 
 #### **`base64`** [33%-37% overhead]
 
-Standard Base64 encoding. We are using [the standard Go library functions here](https://pkg.go.dev/encoding/base64).
+Standard Go implementation of Base64 encoding: `encoding/base64`
 
 #### **`ipv4`** [100%-300% overhead]
 
@@ -111,5 +130,4 @@ The output (array of bytes) looks exactly like this in memory:
 
 ## TODO
 
-- Add AES encryption
 - Add base32 encoding
