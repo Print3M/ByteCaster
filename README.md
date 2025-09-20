@@ -4,7 +4,7 @@ Swiss Army Knife for payload encryption, obfuscation, and conversion to byte arr
 
 It supports 3 encryption algorithms, 4 encoding / obfuscation algorithms and 14 output formats.
 
-![ByteCaster flowchart](_img/img-1.png)
+![ByteCaster order of opretaions](_img/img-1.png)
 
 ## Installation
 
@@ -21,6 +21,8 @@ Example:
 # Convert .bin file into base64 string with XOR encryption
 ./ByteCaster -i shellcode.bin -x xor -k 'Test123' -e base64
 ```
+
+![ByteCaster demo](_img/img-2.png)
 
 > **NOTE**: The sequence of operations is always the same:
 >
